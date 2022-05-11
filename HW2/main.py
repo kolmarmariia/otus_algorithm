@@ -10,6 +10,7 @@
 from datetime import datetime
 start_time = datetime.now()
 
+DIRECTORY_PATH = "/Users/kolesnikova/Documents/otus/A01_Счастливые_билеты-1801-057a77/1.Tickets/test."
 
 def getNextArr(prevArr):
     arr = []
@@ -31,8 +32,29 @@ def getCntLuckyTicketsRandomLen(num):
     return sum(c)
 
 
-for i in range(1,11):
-    res = getCntLuckyTicketsRandomLen(i)
-    print(res)
-    print("затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds()*1000)
+def test(i):
+    with open (DIRECTORY_PATH + str(i) +'.in') as f:
+        cnt = f.readline()
+
+    print("размерность ", cnt)
+
+    res = getCntLuckyTicketsRandomLen(int(cnt))
+
+    print("затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds() * 1000)
+
+    with open (DIRECTORY_PATH + str(i) +'.out') as f:
+        out = f.readline()
+
+    print("out из файла проверки ", int(out))
+    print("посчитанный резлуьтат ", int(res))
+    if int(res) == int(out):
+        print("test ok")
+    else:
+        print("test not ok")
+
+
+for i in range(0,9):
+    test(i)
+
+
 

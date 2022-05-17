@@ -53,7 +53,7 @@ def test(i):
         print("test not ok")
 
 
-for i in range(0,9):
+for i in range(0,10):
     test(i)
 
 

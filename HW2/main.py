@@ -8,7 +8,7 @@
 #Прочитать условие задачи \1.Tickets\problem.txt
 #Решить задачу в общем случае и протестировать вручную на тестах, которые находятся в архиве.#
 from datetime import datetime
-start_time = datetime.now()
+
 
 DIRECTORY_PATH = "/Users/kolesnikova/Documents/otus/A01_Счастливые_билеты-1801-057a77/1.Tickets/test."
 
@@ -37,7 +37,7 @@ def test(i):
         cnt = f.readline()
 
     print("размерность ", cnt)
-
+    start_time = datetime.now()
     res = getCntLuckyTicketsRandomLen(int(cnt))
 
     print("затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds() * 1000)

@@ -37,10 +37,6 @@ def shellSort(arr):
     return arr
 
 # Занести в сравнительную таблицу время сортировки случайного массива размером 100, 1000 и 10000 для каждого алгоритма.
-arr = random.sample(range(0, 10000), 100)
-arr1 = random.sample(range(0, 10000), 1000)
-arr2 = random.sample(range(0, 10000), 10000)
-start_time = datetime.now()
 for i in range(0, 3):
     if i == 0:
         arr = random.sample(range(0, 10000), 100)
@@ -48,15 +44,13 @@ for i in range(0, 3):
        arr = random.sample(range(0, 10000), 1000)
     else:
         arr = random.sample(range(0, 10000), 10000)
+    start_time = datetime.now()
     res = bubbleSort(arr)
     print("len", len(arr))
-    #print("bubbleSort", res)
     print("1. bubbleSort, затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds() * 1000)
     start_time = datetime.now()
     res = insertionSort(arr)
-    #print("insertionSort", res)
     print("1. insertionSort, затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds() * 1000)
     start_time = datetime.now()
     res = shellSort(arr)
-    #print("shellSort", res)
     print("1. shellSort, затраченное время, миллисекунды ", (datetime.now() - start_time).total_seconds() * 1000)

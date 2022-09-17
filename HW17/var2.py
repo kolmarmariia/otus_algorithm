@@ -3,14 +3,12 @@
 # i = 1,2,3
 # ориентированные графы:
 # i = 4,5
-# 1.Перечисление множеств
-# множества вершин и множества рёбер, их соединяющих
 import numpy as np
 
 DIRECTORY_PATH_POWER = "/Users/kolesnikova/Documents/otus/HW17/"
 
 
-# матрица смежности
+# 2. Матрица смежности
 # Для хранения рёбер используется двумерная матрица размерности [V, V],
 # каждый [a, b] элемент которой равен 1, если вершины a и b являются смежными и 0 в противном случае.
 
@@ -18,14 +16,14 @@ def read_graph_matrix(i):
     with open(DIRECTORY_PATH_POWER + 'graph' + str(i) + '.txt') as f:
         array = [row.strip().split(' ') for row in f]
 
-        cnt_edges = int(array[0][1])
+        cnt_nodes = int(array[0][0])
 
         # вершины первые
         nodes_a = [[int(s)] for s, x in array[1:]]
         # вершины вторые
         nodes_b = [[int(x)] for s, x in array[1:]]
 
-        m = np.zeros((cnt_edges + 1, cnt_edges + 1))
+        m = np.zeros((cnt_nodes + 1, cnt_nodes + 1))
         m[nodes_a, nodes_b] = 1
         # для неориентированных графов:
         if i < 4:
@@ -55,7 +53,12 @@ def list_adjacent_nodes(a, m):
 # Вычисление степени заданной вершины a.
 # Степень вершины — количество рёбер графа G, инцидентных вершине x.
 def calc_pow_node(a, m):
-    return m[a, :].sum() + m[:, a].sum()
+    set_nodes = list_adjacent_nodes(a, m)
+    pow = len(set_nodes)
+    #если есть кольцо
+    if m[a, a] > 0:
+        pow = pow + 1
+    return pow
 
 
 for k in range(1, 6):
@@ -68,5 +71,7 @@ for k in range(1, 6):
         if i < (nodes - 1):
             # для примера сравниваю две последовательные вершины
             print("     is adjacent with", i + 2, ":", status_adjacent_nodes(i, i + 1, m))
+        else:
+            print("     is adjacent with 1:", status_adjacent_nodes(i, 0, m))
         print("     list of adjacent nodes", list_adjacent_nodes(i, m))
         print("     pow=", calc_pow_node(i, m))

@@ -3,13 +3,11 @@
 # i = 1,2,3
 # ориентированные графы:
 # i = 4,5
-# 1.Перечисление множеств
-# множества вершин и множества рёбер, их соединяющих
 import numpy as np
 
 DIRECTORY_PATH_POWER = "/Users/kolesnikova/Documents/otus/HW17/"
 
-# Матрица инцидентности
+# 3.Матрица инцидентности
 # Для хранения используется двумерная матрица размера [V, E],
 # в каждом столбце которой записано одно ребро таким образом:
 # напротив вершин, инцидентных этому ребру, записаны 1, в остальных случаях 0.
@@ -47,9 +45,11 @@ def status_adjacent_nodes(a, b, m):
     # запускаем цикл по ребрам:
     result = "no"
     for k in range(0, len(m[0, :])):
-        if (abs(m[a, k]) + abs(m[b, k])) > 1 & ((m[a, k] != 2) | (m[b, k] != 2)):
+        if ((abs(m[a, k]) + abs(m[b, k])) > 1) and (m[a, k] < 2) and (m[b, k] < 2):
             result = "yes"
             break
+    if a == b and m[a, k] == 2:
+        result = "yes"
     return result
 
 
@@ -63,9 +63,9 @@ def list_adjacent_nodes(a, m):
     for i in range(nodes):
         if (abs(d[i, :]).sum() > 0) & (i != a):
             set_nodes.append(int(i) + 1)
-    # отдельное условие на вешину с замкнутым ребром
-    d2 = m[:, m[a, :] == 2]
-    if len(d2) > 0:
+    # отдельное условие на вершину с замкнутым ребром
+    d2 = m[:, m[a, :] == 2].sum()
+    if d2 > 1:
         set_nodes.append(int(a) + 1)
     return set_nodes
 
@@ -73,7 +73,13 @@ def list_adjacent_nodes(a, m):
 # Вычисление степени заданной вершины a.
 # Степень вершины — количество рёбер графа G, инцидентных вершине x.
 def calc_pow_node(a, m):
-    return len(m[:, m[a, :] != 0][0])
+    set_nodes = list_adjacent_nodes(a, m)
+    pow = len(set_nodes)
+    #если есть кольцо
+    d2 = m[:, m[a, :] == 2].sum()
+    if d2 > 1:
+        pow = pow + 1
+    return pow
 
 
 for k in range(1, 6):

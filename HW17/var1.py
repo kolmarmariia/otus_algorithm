@@ -40,9 +40,13 @@ def list_adjacent_nodes(a, edges, nodes):
 
 # Вычисление степени заданной вершины a.
 # Степень вершины — количество рёбер графа G, инцидентных вершине x.
-def calc_pow_node(a, edges):
-    nodes_from_edges = [item for sublist in edges for item in sublist]
-    return nodes_from_edges.count(a)
+def calc_pow_node(a, edges, nodes):
+    set_nodes = list_adjacent_nodes(a, edges, nodes)
+    pow = len(set_nodes)
+    #если есть кольцо
+    if [a, a] in edges:
+        pow = pow + 1
+    return pow
 
 
 for k in range(1, 6):
@@ -51,8 +55,11 @@ for k in range(1, 6):
     print(edges)
     print(nodes)
     for i in nodes:
-        print("for ", i + 1, ":")  # добавляем 1 , так как на графе нумерация вершин с 1 начинается
+        print("for ", i, ":")
         # для примера сравниваю две последовательные вершины
-        print("     is adjacent with", i + 2, ":", status_adjacent_nodes(i, i + 1, edges))
-        print("list of adjacent nodes", list_adjacent_nodes(i, edges, nodes))
-        print("pow=", calc_pow_node(i, edges))
+        if i < len(nodes):
+            print("     is adjacent with", i + 1, ":", status_adjacent_nodes(i, i + 1, edges))
+        else:
+            print("     is adjacent with 1:", status_adjacent_nodes(i, 0, edges))
+        print("     list of adjacent nodes", list_adjacent_nodes(i, edges, nodes))
+        print("     pow=", calc_pow_node(i, edges, nodes))
